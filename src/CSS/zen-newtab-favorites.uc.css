@@ -1,0 +1,318 @@
+/* ==UserStyle==
+ * @name           Zen new tab favorites
+ * @description    Bigger floating URL bar and the favorites panel under it
+ * ==/UserStyle== */
+
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+/* Bigger floating URL bar. The width comes from the zenFavorites.urlbarWidth pref
+   (set as --zfav-urlbar-width by the script); 0 keeps Zen's own width. */
+#urlbar[open][zen-floating-urlbar="true"] {
+  width: min(90vw, var(--zfav-urlbar-width, var(--zen-urlbar-width, 750px))) !important;
+}
+
+/* Lift the new tab URL bar so the bar and the panel together stay centered. */
+#urlbar[open][zen-floating-urlbar="true"][zen-newtab] {
+  top: max(16px, calc(var(--zen-urlbar-top) - var(--zfav-panel-height, 0px) / 2)) !important;
+}
+
+#zfav-panel {
+  --zfav-bg-base: light-dark(#fbfbfb, color-mix(in srgb, hsl(0, 0%, 6.7%), var(--zen-colors-primary) 30%));
+  --zfav-hover: light-dark(rgba(0, 0, 0, 0.05), rgba(255, 255, 255, 0.06));
+  --zfav-well: light-dark(rgba(0, 0, 0, 0.05), rgba(255, 255, 255, 0.07));
+  --zfav-line: light-dark(rgba(0, 0, 0, 0.2), rgba(255, 255, 255, 0.1));
+  --zfav-accent: var(--zen-primary-color, AccentColor);
+
+  display: none;
+  position: absolute;
+  top: calc(100% + 10px);
+  inset-inline: 0;
+  flex-direction: column;
+  padding: 8px 10px 10px;
+  border-radius: 14px;
+  background-color: var(--zfav-bg-transparent, var(--zfav-bg-base));
+  outline: 0.5px solid var(--zfav-line);
+  box-shadow: 0 24px 70px -20px light-dark(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7));
+  color: inherit;
+  font-size: 12px;
+  user-select: none;
+  cursor: default;
+}
+
+/* stylelint-disable-next-line media-query-no-invalid */
+@media -moz-pref("zen.theme.acrylic-elements") and (not (prefers-reduced-transparency: reduce)) {
+  #zfav-panel {
+    --zfav-bg-transparent: light-dark(
+      color-mix(in srgb, white 80%, transparent),
+      color-mix(in srgb, var(--zfav-bg-base) 65%, transparent)
+    );
+    backdrop-filter: var(--zen-urlbar-filter);
+  }
+}
+
+#urlbar[zen-newtab][zen-floating-urlbar="true"][breakout-extend] > #zfav-panel {
+  display: flex;
+  animation: zfav-appear 200ms ease-out;
+}
+
+@keyframes zfav-appear {
+  from {
+    opacity: 0;
+    translate: 0 -6px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #urlbar[zen-newtab][zen-floating-urlbar="true"][breakout-extend] > #zfav-panel {
+    animation: none;
+  }
+}
+
+/* Header */
+
+#zfav-panel .zfav-header {
+  display: flex;
+  align-items: center;
+  padding: 0 0 4px 8px;
+}
+
+#zfav-panel .zfav-title {
+  flex: 1;
+  font-size: 11.5px;
+  opacity: 0.55;
+}
+
+#zfav-panel .zfav-edit-toggle {
+  appearance: none;
+  width: 26px;
+  height: 26px;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: 7px;
+  background: url("chrome://global/skin/icons/edit.svg") center / 14px no-repeat;
+  -moz-context-properties: fill;
+  fill: currentColor;
+  color: inherit;
+  opacity: 0.6;
+
+  &:hover {
+    background-color: var(--zfav-hover);
+    opacity: 1;
+  }
+
+  &[checked] {
+    background-image: url("chrome://global/skin/icons/check.svg");
+    background-color: var(--zfav-well);
+    opacity: 1;
+  }
+}
+
+/* Tiles */
+
+#zfav-panel .zfav-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(92px, 1fr));
+  gap: 2px;
+}
+
+#zfav-panel .zfav-tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  min-width: 0;
+  padding: 10px 4px 7px;
+  border-radius: 10px;
+
+  &:hover {
+    background-color: var(--zfav-hover);
+  }
+
+  &[selected] {
+    background-color: color-mix(in srgb, var(--zfav-accent) 22%, transparent);
+  }
+}
+
+#zfav-panel .zfav-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background-color: var(--zfav-well);
+
+  & img {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+#zfav-panel .zfav-letter {
+  background-color: hsl(var(--zfav-hue) 42% 42%);
+  color: white;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+#zfav-panel .zfav-label {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#zfav-panel .zfav-key {
+  min-height: 1.2em;
+  font-size: 10.5px;
+  opacity: 0.4;
+}
+
+#zfav-panel .zfav-add .zfav-icon {
+  background: url("chrome://global/skin/icons/plus.svg") center / 16px no-repeat;
+  -moz-context-properties: fill;
+  fill: currentColor;
+  outline: 1px dashed var(--zfav-line);
+  outline-offset: -1px;
+  opacity: 0.8;
+}
+
+#zfav-panel .zfav-remove {
+  display: none;
+  position: absolute;
+  top: 3px;
+  inset-inline-end: 8px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--zfav-bg-base) url("chrome://global/skin/icons/close.svg") center / 10px no-repeat;
+  -moz-context-properties: fill;
+  fill: currentColor;
+  outline: 0.5px solid var(--zfav-line);
+
+  &:hover {
+    background-color: light-dark(#e5484d, #e5484d);
+    fill: white;
+  }
+}
+
+/* Edit mode */
+
+#zfav-panel[editing] {
+  & .zfav-tile[data-guid] {
+    outline: 1px dashed var(--zfav-line);
+    outline-offset: -3px;
+    cursor: grab;
+  }
+
+  & .zfav-remove {
+    display: block;
+  }
+
+  & .zfav-key {
+    visibility: hidden;
+  }
+}
+
+#zfav-panel[dragging] .zfav-tile {
+  cursor: grabbing;
+}
+
+#zfav-panel .zfav-tile[dragging] {
+  z-index: 2;
+  background-color: var(--zfav-bg-base);
+  outline-style: solid;
+  box-shadow: 0 8px 24px -6px rgba(0, 0, 0, 0.45);
+  pointer-events: none;
+}
+
+/* Add / edit form */
+
+#zfav-panel .zfav-form {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 8px;
+  padding: 10px 8px 2px;
+  border-top: 0.5px solid var(--zfav-line);
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+#zfav-panel .zfav-form-title {
+  font-size: 11.5px;
+  opacity: 0.55;
+}
+
+#zfav-panel .zfav-form-row {
+  display: flex;
+  gap: 6px;
+}
+
+#zfav-panel .zfav-input {
+  appearance: none;
+  flex: 1;
+  min-width: 0;
+  height: 30px;
+  margin: 0;
+  padding: 0 10px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background-color: var(--zfav-well);
+  color: inherit;
+  font: inherit;
+  font-size: 12.5px;
+  user-select: text;
+
+  &:focus {
+    border-color: var(--zfav-accent);
+    outline: none;
+  }
+
+  &[aria-invalid] {
+    border-color: #e5484d;
+  }
+}
+
+#zfav-panel .zfav-input-url {
+  flex: 1.5;
+}
+
+#zfav-panel .zfav-button {
+  appearance: none;
+  height: 30px;
+  margin: 0;
+  padding: 0 12px;
+  border: none;
+  border-radius: 8px;
+  background-color: var(--zfav-well);
+  color: inherit;
+  font: inherit;
+  font-size: 12.5px;
+
+  &:hover {
+    background-color: light-dark(rgba(0, 0, 0, 0.1), rgba(255, 255, 255, 0.12));
+  }
+}
+
+#zfav-panel .zfav-button-primary {
+  background-color: var(--zfav-accent);
+  color: white;
+
+  &:hover {
+    background-color: color-mix(in srgb, var(--zfav-accent) 85%, white);
+  }
+}
+
+#zfav-panel .zfav-error {
+  min-height: 1.2em;
+  color: light-dark(#c62828, #ff8a80);
+  font-size: 11.5px;
+}
