@@ -1,150 +1,150 @@
-# Zen: избранное на новой вкладке
+# Zen: New Tab Favorites
 
-Мод для [Zen Browser](https://zen-browser.app/): под плавающей адресной строкой, которая открывается по Ctrl+T, появляется панель с избранными сайтами. Сама строка становится шире (900px вместо 750px) и поднимается, чтобы строка вместе с панелью стояли по центру окна.
+A mod for [Zen Browser](https://zen-browser.app/) that adds a favorites panel below the floating address bar opened with Ctrl+T. The bar also gets wider (900px instead of 750px) and moves up, so the bar and the panel together sit in the center of the window.
 
-![Панель избранного](docs/preview.png)
+![Favorites panel](docs/preview.png)
 
-## Как пользоваться
+## Usage
 
-- **Ctrl+T** открывает строку, панель появляется под ней. При Ctrl+L на обычной странице панели нет.
-- **Клик по плитке** открывает сайт так же, как если бы адрес ввели в строку.
-- **Alt+1…Alt+9** открывают сайты по номеру прямо из строки. Работает с любой раскладкой.
-- **Средняя кнопка мыши** открывает сайт в фоновой вкладке, строка остаётся открытой.
-- **Карандаш** в заголовке панели включает режим правки:
-  - перетаскивание плитки меняет порядок;
-  - клик по плитке открывает форму: можно поменять название и адрес, Enter сохраняет, Escape отменяет;
-  - крестик удаляет сайт;
-  - плитка «Добавить» открывает форму для нового сайта. Адрес можно писать коротко (`github.com`), а если название пустое, возьмётся домен.
+- **Ctrl+T** opens the bar, and the panel appears below it. Ctrl+L on a regular page does not show the panel.
+- **Clicking a tile** opens the site, just as if you had typed its address into the bar.
+- **Alt+1…Alt+9** open sites by their number straight from the bar. Works with any keyboard layout.
+- **Middle click** opens the site in a background tab and keeps the bar open.
+- **The pencil** in the panel header toggles edit mode:
+  - drag a tile to reorder it;
+  - click a tile to open a form where you can change its name and address; Enter saves, Escape cancels;
+  - the cross removes a site;
+  - the "Добавить" (Add) tile opens a form for a new site. The address can be short (`github.com`), and if the name is left empty, the domain is used.
 
-## Где хранится список
+## Where the list is stored
 
-В обычной папке закладок **«Избранное новой вкладки»** внутри «Других закладок». Поэтому:
+In a regular bookmarks folder named **"Избранное новой вкладки"** ("New Tab Favorites") inside "Other Bookmarks". This means:
 
-- список синхронизируется между устройствами через аккаунт Mozilla, если синхронизация закладок включена;
-- его можно править и в менеджере закладок (Ctrl+Shift+O), панель подхватит изменения сразу.
+- the list syncs between devices through your Mozilla account if bookmark sync is enabled;
+- you can also edit it in the Library window (Ctrl+Shift+O), and the panel picks up changes immediately.
 
-Иконки берутся из истории браузера. Если сайт ещё ни разу не открывался, иконка грузится с самого сайта (`/favicon.ico`), а если её там нет, показывается первая буква названия.
+Icons come from the browser history. If a site has never been visited, its icon is loaded from the site itself (`/favicon.ico`), and if there is none, the first letter of the name is shown.
 
-## Настройки
+## Settings
 
-В `about:config`:
+In `about:config`:
 
-| Настройка | По умолчанию | Что делает |
+| Preference | Default | What it does |
 |---|---|---|
-| `zenFavorites.urlbarWidth` | `900` | Максимальная ширина плавающей строки в пикселях (не больше 90% ширины окна). `0` оставляет ширину Zen. Меняется сразу, без перезапуска. |
-| `zenFavorites.folderGuid` | — | Служебная: какая папка закладок используется. |
+| `zenFavorites.urlbarWidth` | `900` | Maximum width of the floating bar in pixels (capped at 90% of the window width). `0` keeps Zen's width. Applies immediately, no restart needed. |
+| `zenFavorites.folderGuid` | — | Internal: which bookmarks folder is used. |
 
-## Установка
+## Installation
 
-Моду нужен [fx-autoconfig](https://github.com/MrOtherGuy/fx-autoconfig): Zen Mods умеют только CSS, а панели нужен JavaScript. Загрузчик уже лежит в `vendor/`, установщик ставит его сам.
+The mod requires [fx-autoconfig](https://github.com/MrOtherGuy/fx-autoconfig): Zen Mods only support CSS, and the panel needs JavaScript. The loader is already included in `vendor/`, and the installer sets it up for you.
 
-Установка постоянная: файлы копируются в профиль, и мод загружается при каждом запуске Zen. Папка проекта после установки не нужна, она понадобится только для обновления мода.
+The installation is permanent: files are copied into the profile, and the mod loads every time Zen starts. The project folder is not needed after installation; you only need it to update the mod.
 
 ### Windows
 
-1. Полностью закрой Zen.
-2. В папке проекта запусти:
+1. Close Zen completely.
+2. In the project folder, run:
 
    ```powershell
    powershell -ExecutionPolicy Bypass -File .\install.ps1
    ```
 
-   Установщик:
-   - кладёт `config.js` в папку Zen (`C:\Program Files\Zen Browser`), если его там нет. Нужны права администратора, появится окно UAC;
-   - копирует файлы мода в `chrome\` профиля, которым Zen открывается по умолчанию. Другой профиль можно указать через `-ProfilePath "<путь>"`;
-   - очищает кеш запуска, чтобы Zen увидел новые скрипты.
-3. Запусти Zen и нажми Ctrl+T.
+   The installer:
+   - puts `config.js` into the Zen folder (`C:\Program Files\Zen Browser`) if it is not there yet. This requires administrator rights, so a UAC prompt will appear;
+   - copies the mod files into the `chrome\` folder of the profile Zen opens by default. A different profile can be specified with `-ProfilePath "<path>"`;
+   - clears the startup cache so Zen picks up the new scripts.
+3. Start Zen and press Ctrl+T.
 
 ### Linux
 
-1. Полностью закрой Zen.
-2. В папке проекта запусти:
+1. Close Zen completely.
+2. In the project folder, run:
 
    ```bash
    ./install.sh
    ```
 
-   Скрипт сам находит Zen и профиль для этих вариантов установки:
+   The script finds Zen and the profile automatically for these installation types:
 
-   | Установка | Папка Zen | Профили |
+   | Installation | Zen folder | Profiles |
    |---|---|---|
-   | Скрипт с сайта Zen (tarball) | `~/.tarball-installations/zen` | `~/.zen` или `~/.config/zen` |
-   | AUR и другие пакеты | `/opt/zen-browser-bin`, `/opt/zen-browser`, `/usr/lib/zen-browser` и т.п. | `~/.zen` или `~/.config/zen` |
+   | Script from the Zen website (tarball) | `~/.tarball-installations/zen` | `~/.zen` or `~/.config/zen` |
+   | AUR and other packages | `/opt/zen-browser-bin`, `/opt/zen-browser`, `/usr/lib/zen-browser`, etc. | `~/.zen` or `~/.config/zen` |
    | Flatpak | `…/flatpak/app/app.zen_browser.zen/current/active/files/zen` | `~/.var/app/app.zen_browser.zen/.zen` |
 
-   Если папка Zen не записываемая (например, `/opt`), `config.js` копируется через `sudo`. Другие пути можно указать явно:
+   If the Zen folder is not writable (e.g. `/opt`), `config.js` is copied with `sudo`. Other paths can be specified explicitly:
 
    ```bash
-   ./install.sh --zen-dir /путь/к/zen --profile "/путь/к/профилю"
+   ./install.sh --zen-dir /path/to/zen --profile "/path/to/profile"
    ```
 
-3. Запусти Zen и нажми Ctrl+T.
+3. Start Zen and press Ctrl+T.
 
-Ограничения Linux:
+Linux limitations:
 
-- **Flatpak.** Папка приложения только для чтения и заменяется при каждом обновлении Zen. Поэтому `config.js` ставится через `sudo`, и после каждого обновления Flatpak `./install.sh` нужно запускать снова. Сам мод в профиле при этом сохраняется.
-- **AppImage.** Образ только для чтения. Его нужно распаковать (`./zen.AppImage --appimage-extract`) и передать `--zen-dir squashfs-root`, либо поставить Zen скриптом с сайта.
-- **Alt+1…9.** На Linux Firefox использует эти сочетания для переключения вкладок. Пока открыта панель, их перехватывает мод, в остальное время они работают как обычно.
+- **Flatpak.** The app folder is read-only and is replaced on every Zen update. That is why `config.js` is installed with `sudo`, and `./install.sh` has to be run again after every Flatpak update. The mod itself stays in the profile.
+- **AppImage.** The image is read-only. Extract it (`./zen.AppImage --appimage-extract`) and pass `--zen-dir squashfs-root`, or install Zen with the script from the website.
+- **Alt+1…9.** On Linux, Firefox uses these shortcuts to switch tabs. While the panel is open, the mod intercepts them; the rest of the time they work as usual.
 
-### Общее
+### General
 
-`config.js` загружает скрипты только из профилей, где есть `chrome/utils/chrome.manifest`, остальные профили он не затрагивает.
+`config.js` loads scripts only from profiles that contain `chrome/utils/chrome.manifest`; other profiles are not affected.
 
-После обновления мода достаточно снова закрыть Zen и запустить установщик.
+To update the mod, just close Zen again and rerun the installer.
 
-### Если Zen обновился и мод пропал
+### If Zen updated and the mod is gone
 
-Обычное обновление Zen `config.js` не удаляет, а переустановка Zen может удалить (а Flatpak удаляет при каждом обновлении). Тогда снова запусти установщик.
+A regular Zen update does not remove `config.js`, but reinstalling Zen may (and Flatpak removes it on every update). In that case, run the installer again.
 
-Если в новой версии Zen поменял устройство адресной строки и панель ведёт себя странно, скрипты можно временно отключить: `about:config` → `userChromeJS.enabled` = `false`, затем перезапусти Zen.
+If a new Zen version changes how the address bar works and the panel misbehaves, you can temporarily disable the scripts: `about:config` → `userChromeJS.enabled` = `false`, then restart Zen.
 
-## Удаление
+## Uninstallation
 
-1. Закрой Zen.
-2. Удали из `<профиль>\chrome\`:
+1. Close Zen.
+2. Delete from `<profile>\chrome\`:
    - `JS\zen-newtab-favorites.uc.js`
    - `CSS\zen-newtab-favorites.uc.css`
    - `resources\zen-newtab-favorites\`
-3. Если другие скрипты fx-autoconfig не нужны, удали ещё `chrome\utils\`, а из папки Zen — `config.js` и `defaults\pref\config-prefs.js`.
+3. If you don't need other fx-autoconfig scripts, also delete `chrome\utils\`, and from the Zen folder, `config.js` and `defaults\pref\config-prefs.js`.
 
-Папка закладок останется. Её можно удалить вручную в менеджере закладок.
+The bookmarks folder stays. You can delete it manually in the Library window.
 
-## Устройство
+## How it works
 
 ```
 src/
-  JS/zen-newtab-favorites.uc.js                  панель: разметка, события, перетаскивание, Alt+N
-  CSS/zen-newtab-favorites.uc.css                стили панели и увеличенной строки
-  resources/zen-newtab-favorites/store.sys.mjs   хранение в закладках, общий модуль для всех окон
-vendor/fx-autoconfig/                            загрузчик скриптов (MPL-2.0)
-install.ps1, install.sh                          установка (Windows, Linux)
-tools/                                           разработка и проверка
+  JS/zen-newtab-favorites.uc.js                  panel: markup, events, drag and drop, Alt+N
+  CSS/zen-newtab-favorites.uc.css                styles for the panel and the wider bar
+  resources/zen-newtab-favorites/store.sys.mjs   bookmark storage, a shared module for all windows
+vendor/fx-autoconfig/                            script loader (MPL-2.0)
+install.ps1, install.sh                          installers (Windows, Linux)
+tools/                                           development and testing
 ```
 
-Панель вставлена внутрь элемента `#urlbar`. Zen считает клики внутри него кликами по самой строке и не закрывает её. Панель показывается, когда у строки одновременно есть атрибуты `zen-newtab`, `zen-floating-urlbar="true"` и `breakout-extend`, то есть в режиме новой вкладки.
+The panel is inserted inside the `#urlbar` element. Zen treats clicks inside it as clicks on the bar itself and does not close it. The panel is shown when the bar has the `zen-newtab`, `zen-floating-urlbar="true"` and `breakout-extend` attributes at the same time, i.e. in new tab mode.
 
-Пока открыта форма правки, мод перехватывает `blur` адресной строки. Иначе при переходе фокуса в поле формы строка закрылась бы.
+While the edit form is open, the mod intercepts the address bar's `blur`. Otherwise the bar would close when focus moves into a form field.
 
-## Разработка
+## Development
 
-Для отладки используется отдельный экземпляр Zen с временным профилем в `.dev\profile`, основной профиль он не трогает. Управление идёт через Marionette.
+Debugging uses a separate Zen instance with a temporary profile in `.dev\profile`, so your main profile is left untouched. It is controlled through Marionette.
 
 ```powershell
-.\tools\dev.ps1 -Fresh          # поставить мод в тестовый профиль и запустить Zen с Marionette
-.\tools\test.ps1 seed           # заполнить тестовый список
-.\tools\test.ps1 edit -Shot     # сценарии: edit, drag, open, misc; скриншот в .dev\
-node .\tools\marionette.mjs eval "return gZenFavoritesPanel.items"   # выполнить JS в окне браузера
-.\tools\shot.ps1 -Out .dev\s.png                                      # скриншот окна тестового Zen
+.\tools\dev.ps1 -Fresh          # install the mod into the test profile and start Zen with Marionette
+.\tools\test.ps1 seed           # fill in a test list
+.\tools\test.ps1 edit -Shot     # scenarios: edit, drag, open, misc; screenshot in .dev\
+node .\tools\marionette.mjs eval "return gZenFavoritesPanel.items"   # run JS in the browser window
+.\tools\shot.ps1 -Out .dev\s.png                                      # screenshot of the test Zen window
 ```
 
-Сценарии в `tools\tests` генерируют настоящие (trusted) события мыши и клавиатуры через `window.synthesizeMouseEvent` и `nsITextInputProcessor`. Поэтому фокус и закрытие строки ведут себя как при ручной работе.
+The scenarios in `tools\tests` generate real (trusted) mouse and keyboard events via `window.synthesizeMouseEvent` and `nsITextInputProcessor`, so focus and bar closing behave the same as with manual use.
 
-На Linux то же самое делают `tools/dev.sh` и `tools/test.sh`. Путь к Zen берётся из `$ZEN_BIN` или `zen` в `PATH`. Скриншотера для Linux нет, снимай любым системным инструментом.
+On Linux, `tools/dev.sh` and `tools/test.sh` do the same. The Zen path is taken from `$ZEN_BIN` or `zen` in `PATH`. There is no screenshot tool for Linux; use any system tool.
 
-Установщик для Linux проверяется без настоящего Zen, на фейковых раскладках во временной папке:
+The Linux installer is tested without a real Zen, on fake layouts in a temporary folder:
 
 ```bash
 bash tools/tests/install-linux.sh
 ```
 
-Мод проверен на Zen 1.22.3b (Firefox 156) под Windows. Linux-установщик проверен на фейковых раскладках (tarball, XDG, Flatpak, sudo) в WSL; сам мод под Linux в живом Zen пока не запускался.
+The mod has been tested on Zen 1.22.3b (Firefox 156) on Windows. The Linux installer has been tested on fake layouts (tarball, XDG, Flatpak, sudo) in WSL; the mod itself has not yet been run in a live Zen on Linux.
